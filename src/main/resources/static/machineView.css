@@ -1,0 +1,27 @@
+h2 {
+   text-align : center;
+}
+#container{
+    text-align : center;
+    margin-right: auto;
+    margin-left: auto;
+    width: 900px;
+    height: 575px;
+    border-style: solid;
+}
+#upArrow{
+  text-align: center;
+  margin-left: 400px;
+}
+#leftArrow{
+  text-align:center;
+  margin-left:380px;
+}
+#rightArrow{
+  text-align:center;
+  margin-right:380px;
+}
+#downArrow{
+  text-align:center;
+  margin-left:400px;
+}
