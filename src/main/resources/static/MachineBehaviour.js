@@ -97,17 +97,16 @@ function createGrid(){
 
 function requestHandlerFunction(){
       const xhr = new XMLHttpRequest();
-      var url = ("https://localhost:8080/");
-      xhr.open("POST", url, true);
+      var url = ("http://localhost:8080/morphleLabs");
       xhr.setRequestHeader('timeStamp', eventTimeStamp);
       xhr.setRequestHeader('eventType', eventType);
+      xhr.open("POST", url, true);
       xhr.send();
       xhr.onload = () => {
         if (xhr.status == 200) {
           const timeStamp = xhr.getResponseHeader("eventTime");
           const state = xhr.getResponseHeader("machineState");
           const x_pos = xhr.getResponseHeader("rowIndex");
-          const y_pos = xhr.getResponseHeader("colIndex");
           responseHandlerFunction(timeStamp, state, x_pos, y_pos);
         } else {
           console.log(`Error: ${xhr.status}`);
