@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.morphleLabs.machine.domain.Machine;
+import org.springframework.web.servlet.ModelAndView;
 
 @Component
 @RestController
@@ -12,10 +13,10 @@ import com.morphleLabs.machine.domain.Machine;
 public class MachineController {
     Machine machine;
     public static boolean initialized = false;
-    @GetMapping(value="/morphleLabs")
-    @ResponseStatus(HttpStatus.OK)
-    public String machineControllerInitializer() {
-        return "Hello Boy";
+    @GetMapping("")
+    public ModelAndView machineControllerInitializer() {
+        ModelAndView mav=new ModelAndView("machineView");
+        return mav;
     }
     @PostMapping(value="/morphleLabs")
     @ResponseStatus(HttpStatus.OK)

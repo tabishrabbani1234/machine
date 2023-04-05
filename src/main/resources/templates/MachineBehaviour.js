@@ -1,4 +1,3 @@
-<script>
 var eventType;
 var machineState;
 var eventTimeStamp;
@@ -17,7 +16,12 @@ class Machine {
       this.col_Index = col;
    }
 }
-var machine = new Machine();
+var machine;
+function machineInitializer() {
+   machine = new Machine();
+   eventType = "Initialized";
+   eventTimeStamp = 0;
+}
 function upArrowClick(){
    eventType = "Move Up";
    removeGridElementStyle();
@@ -89,10 +93,8 @@ function createGrid(){
      elem.parentNode.removeChild(elem);
      elem = document.getElementById('Machine Header');
      elem.parentNode.removeChild(elem);
-     eventType = "Initialized";
-     eventTimeStamp = 0;
      addGridElementStyle();
-     requestHandlerFunction()
+     requestHandlerFunction();
 }
 
 function requestHandlerFunction(){
@@ -129,5 +131,3 @@ function setMachineRequestcall(var time){
    var timeInMilliSeconds = time - currentTime.getMilliseconds();
    window.setTimeout(requestHandlerFunction, timeInMilliSeconds);
 }
-
-</script>

@@ -1,13 +1,12 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="MachineBehaviour.css">
     <h2>Morphle Labs Machine</h2>
     <title>Title</title>
 </head>
 <body>
-<link rel="stylesheet" type="text/css" href="../static/MachineBehaviour.css">
-<script type="text/javascript" src="../static/MachineBehaviour.js"></script>
 <p id="Machine Header">Click the following button to create Machine grid</p>
 <input id="button" type="button" onclick="createGrid()" value="Create Grid">
 <div id="container">
@@ -19,5 +18,6 @@
 <input id="rightArrow" type="button" value="&#8594" onclick="getTimeStamp(event),rightArrowClick()">
 </br>
 <input id="downArrow" type="button" value="&#8595" onclick="getTimeStamp(event),downArrowClick()">
+<script type="text/javascript" src="MachineBehaviour.js"></script>
 </body>
 </html>
