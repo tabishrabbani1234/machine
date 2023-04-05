@@ -1,27 +1,10 @@
+"use strict";
 var eventType;
 var machineState;
 var eventTimeStamp;
-class Machine {
-   var timeStamp;
-   var row_Index;
-   var col_Index;
-   Machine(){
-      timeStamp = 0;
-      row_Index = 10;
-      col_Index = 30;
-   }
-   updateMachine(time, row, col){
-      this.timeStamp = time;
-      this.row_Index = row;
-      this.col_Index = col;
-   }
-}
-var machine;
-function machineInitializer() {
-   machine = new Machine();
-   eventType = "Initialized";
-   eventTimeStamp = 0;
-}
+var machineRowIndex = 10;
+var machineColIndex = 30;
+var machineTimeStamp = 0;
 function upArrowClick(){
    eventType = "Move Up";
    removeGridElementStyle();
@@ -51,7 +34,7 @@ function getTimeStamp(event) {
 }
 
 function addGridElementStyle() {
-    var count = ((machine.row_Index-1) * 60) + machine.col_Index ;
+    var count = ((machineRowIndex-1) * 60) + machineColIndex ;
     var cell = ("div").concat(count.toString());
     var div = document.getElementById(cell);
     div.focus();
@@ -66,7 +49,7 @@ function addGridElementStyle() {
 }
 
 function removeGridElementStyle() {
-    var count = ((machine.row_Index-1) * 60) + machine.col_Index ;
+    var count = ((machineRowIndex-1) * 60) + machineColIndex ;
     var cell = ("div").concat(count.toString());
     var div = document.getElementById(cell);
     div.style.background = "white";
@@ -109,6 +92,7 @@ function requestHandlerFunction(){
           const timeStamp = xhr.getResponseHeader("eventTime");
           const state = xhr.getResponseHeader("machineState");
           const x_pos = xhr.getResponseHeader("rowIndex");
+          const y_pos = xhr.getResponseHeader("colIndex");
           responseHandlerFunction(timeStamp, state, x_pos, y_pos);
         } else {
           console.log(`Error: ${xhr.status}`);
@@ -119,7 +103,9 @@ function requestHandlerFunction(){
 function responseHandlerFunction(var timeStamp, var state, var x_pos, var y_pos){
      if(timeStamp !== machine.timeStamp){
          removeGridElementStyle();
-         machine.updateMachine(timeStamp,x_pos,y_pos);
+         machineTimeStamp = timeStamp;
+         machineRowIndex = x_pos;
+         machineColIndex = y_pos;
          addGridElementStyle();
          machineState = state;
          setMachineRequestcall(machine.timeStamp);
