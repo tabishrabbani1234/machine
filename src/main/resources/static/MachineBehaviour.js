@@ -1,11 +1,11 @@
-var eventType;
+        var eventType;
 var machineState = "Initial";
 var eventTimeStamp = 0;
 var machineRowIndex = 10;
 var machineColIndex = 30;
 var machineTimeStamp = 0;
 var eventType = "Initial";
-var eventList = [];
+var eventList = ["Stay there"];
 var onLoadTime = 0;
 const date = new Date()
 function upArrowClick(){
@@ -105,7 +105,7 @@ function requestHandlerFunction(){
           "machineTimeStamp":machineTimeStamp,
           "machineState": machineState
           };
-          console.log(machineDetails);
+          //console.log(machineDetails);
       var data = JSON.stringify(machineDetails);
       xhr.send(data);
       xhr.onload = () => {
@@ -123,18 +123,20 @@ function requestHandlerFunction(){
 }
 //Response Handler functions
 function responseHandlerFunction(timeStamp, state, x_pos, y_pos, eventListStatus){
-     if(parseInt(timeStamp) != machineTimeStamp){
+     console.log(parseInt(timeStamp), " ",machineTimeStamp);
+     if(parseInt(timeStamp) !== machineTimeStamp){
          removeGridElementStyle();
          machineTimeStamp = parseInt(timeStamp);
          machineRowIndex = parseInt(x_pos);
          machineColIndex = parseInt(y_pos);
          machineState = state;
          addGridElementStyle();
-         if(eventListStatus == "clear")
-            eventList.length = 0;
+         if(eventListStatus == "clear"){
+            eventList.length = 1;
+         }
          setMachineRequestcall(machineTimeStamp);
      } else {
-        if(state = "Idle"){
+        if(state == "Idle"){
             machineState = state;
             addGridElementStyle();
         }
