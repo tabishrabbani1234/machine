@@ -40,7 +40,7 @@ public class Machine {
         }
     }
     public final void updateMachineState(List<String> eventList){
-        if(eventList.size() == 0 || eventList.size() == 1){
+        if(eventList.size() == 1){
             if(this.machineTimeStamp == this.eventTimeStamp && this.machineState.equals(MachineConstants.focus)){
                 this.machineState = MachineConstants.capture;
             } else if(this.machineTimeStamp == this.eventTimeStamp && this.machineState.equals(MachineConstants.capture)){
