@@ -1,30 +1,34 @@
-"use strict";
 var eventType;
 var machineState;
-var eventTimeStamp;
+var eventTimeStamp = 0;
 var machineRowIndex = 10;
 var machineColIndex = 30;
 var machineTimeStamp = 0;
+var eventList = [];
 function upArrowClick(){
    eventType = "Move Up";
+   eventList.push(eventType);
    removeGridElementStyle();
    addGridElementStyle();
    requestHandlerFunction();
 }
 function leftArrowClick(){
    eventType = "Move Left";
+   eventList.push(eventType);
    removeGridElementStyle();
    addGridElementStyle();
    requestHandlerFunction();
 }
 function rightArrowClick(){
    eventType = "Move Right";
+   eventList.push(eventType);
    removeGridElementStyle();
    addGridElementStyle();
    requestHandlerFunction();
 }
 function downArrowClick(){
    eventType = "Move Down";
+   eventList.push(eventType);
    removeGridElementStyle();
    addGridElementStyle();
    requestHandlerFunction();
@@ -83,16 +87,19 @@ function createGrid(){
 function requestHandlerFunction(){
       const xhr = new XMLHttpRequest();
       var url = ("http://localhost:8080/morphleLabs");
-      xhr.setRequestHeader('timeStamp', eventTimeStamp);
-      xhr.setRequestHeader('eventType', eventType);
-      xhr.open("POST", url, true);
-      xhr.send();
+      var jsonArray = JSON.stringify(eventList);
+      xhr.open("POST", url);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.send({
+           data: {"eventTimeStamp": eventTimeStamp, "eventType": eventType, "eventList": jsonArray, "machineRowIndex": machineRowIndex, "machineColIndex": machineColIndex, "machineTimeStamp":machineTimeStamp, "machineState": machineState}
+      });
       xhr.onload = () => {
         if (xhr.status == 200) {
           const timeStamp = xhr.getResponseHeader("eventTime");
           const state = xhr.getResponseHeader("machineState");
           const x_pos = xhr.getResponseHeader("rowIndex");
           const y_pos = xhr.getResponseHeader("colIndex");
+          const eventListStatus = xhr.getResponseHeader("eventListStatus");
           responseHandlerFunction(timeStamp, state, x_pos, y_pos);
         } else {
           console.log(`Error: ${xhr.status}`);
@@ -101,13 +108,14 @@ function requestHandlerFunction(){
 }
 //Response Handler functions
 function responseHandlerFunction(var timeStamp, var state, var x_pos, var y_pos){
-     if(timeStamp !== machine.timeStamp){
+     if(timeStamp !== machineTimeStamp){
          removeGridElementStyle();
          machineTimeStamp = timeStamp;
          machineRowIndex = x_pos;
          machineColIndex = y_pos;
-         addGridElementStyle();
          machineState = state;
+         addGridElementStyle();
+     } else {
          setMachineRequestcall(machine.timeStamp);
      }
 }

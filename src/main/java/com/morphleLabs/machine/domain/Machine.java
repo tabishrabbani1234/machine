@@ -1,61 +1,55 @@
 package com.morphleLabs.machine.domain;
 
-import java.util.ArrayList;
 import java.util.List;
-
 public class Machine {
-    public int row_pos;
-    public int col_pos;
-    public static List<String> eventList = new ArrayList<String>();
-    public static long eventTime = 0;
-    public static String state = "Idle";
-    public Machine(){
-        this.row_pos = MachineConstants.midRowIndex;
-        this.col_pos = MachineConstants.midColIndex;
-        state = MachineConstants.focus;
-    }
+    public long eventTimeStamp;
+    public String machineState;
+    public int machineRowIndex;
+    public int machineColIndex;
+    public long  machineTimeStamp;
+    public String eventListStatus;
 
-    public final void updateEventList(String event, long timeStamp){
-        if(timeStamp < eventTime){
-            eventList.add(event);
+    public final void updateEventList(List<String> eventList){
+        if(this.eventTimeStamp < this.machineTimeStamp){
+            this.eventListStatus = MachineConstants.wait;
         } else{
-            this.updateMachineState(timeStamp);
-            this.updateMachinePosition();
-            this.updateTimeStamp(timeStamp);
-            eventList.clear();
+            this.updateMachineState(eventList);
+            this.updateMachinePosition(eventList);
+            this.updateTimeStamp();
+            this.eventListStatus = MachineConstants.clear;
         }
     }
-    public final void updateMachinePosition(){
-        for(int i=0;i<eventList.size();i++){
+    public final void updateMachinePosition(List<String> eventList){
+        for(int i=0;i<(eventList.size());i++){
             if(eventList.get(i).equals(MachineConstants.leftArrow)){
-                this.col_pos -= 1;
+                this.machineColIndex -= 1;
             } else if(eventList.get(i).equals(MachineConstants.rightArrow)){
-                this.col_pos += 1;
+                this.machineColIndex += 1;
             } else if(eventList.get(i).equals(MachineConstants.upArrow)){
-                this.row_pos -= 1;
+                this.machineRowIndex -= 1;
             } else if(eventList.get(i).equals(MachineConstants.downArrow)){
-                this.row_pos += 1;
+                this.machineRowIndex += 1;
             }
         }
     }
-    public final void updateTimeStamp(long timeStamp){
-        if(state.equals(MachineConstants.focus)){
-            eventTime = timeStamp + 3000;
-        } else if(state.equals(MachineConstants.capture)){
-            eventTime = timeStamp + 2000;
+    public final void updateTimeStamp(){
+        if(this.machineState.equals(MachineConstants.focus)){
+            this.machineTimeStamp = this.eventTimeStamp + 3000;
+        } else if(this.machineState.equals(MachineConstants.capture)){
+            this.machineTimeStamp = this.eventTimeStamp + 2000;
         }
     }
-    public final void updateMachineState(long timeStamp){
-        if(eventList.size() == 0){
-            if(timeStamp == eventTime && state.equals(MachineConstants.focus)){
-                state = MachineConstants.capture;
-            } else if(state.equals(MachineConstants.capture)){
-                state = MachineConstants.idle;
+    public final void updateMachineState(List<String> eventList){
+        if(eventList.size() == 0 || eventList.size() == 1){
+            if(this.machineTimeStamp == this.eventTimeStamp && this.machineState.equals(MachineConstants.focus)){
+                this.machineState = MachineConstants.capture;
+            } else if(this.machineTimeStamp == this.eventTimeStamp && this.machineState.equals(MachineConstants.capture)){
+                this.machineState = MachineConstants.idle;
             } else {
-                state = MachineConstants.focus;
+                this.machineState = MachineConstants.focus;
             }
         } else {
-            state = MachineConstants.focus;
+            this.machineState = MachineConstants.focus;
         }
     }
 }
