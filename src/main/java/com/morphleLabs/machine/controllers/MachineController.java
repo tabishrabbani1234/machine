@@ -29,9 +29,6 @@ public class MachineController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> machineController(@RequestHeader(value="eventListString") String eventListString,@RequestBody Machine machine ) {
         List<String> eventList = Arrays.asList(eventListString.split(","));
-        if(machine.machineState == "Initial"){
-            eventList.clear();
-        }
         machine.updateEventList(eventList);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("EventListSize", String.valueOf(eventList.size()));
