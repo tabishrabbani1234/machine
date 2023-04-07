@@ -3,6 +3,8 @@ import java.lang.String;
 public class MachineConstants {
     public static final String idle = "Idle";
     public static final String wait = "wait";
+    public static final String appendToList = "append to list";
+    public static final String dontAppendToList = "Don't append to list";
     public static final String clear = "clear";
     public static final String focus = "Focusing";
     public static final String capture = "Capturing";
