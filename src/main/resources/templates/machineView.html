@@ -13,8 +13,31 @@ var machineColIndex = 30;
 var machineTimeStamp = 0;
 var eventType = "Initial";
 var eventList = ["Stay there"];
+var focusedCell = [];
 var onLoadTime = 0;
 const date = new Date()
+function focusedCells(){
+   for (var i = 0; i < focusedCell.length ; i++){
+       var count = focusedCell[i];
+       var cell = ("div").concat(count.toString());
+       var div = document.getElementById(cell);
+       div.style.background = "green";
+       div.style.border = "thin dotted #000000";
+   }
+}
+function clearCells(){
+      for (var i = 0; i < focusedCell.length ; i++){
+       var count = focusedCell[i];
+       var cell = ("div").concat(count.toString());
+       var div = document.getElementById(cell);
+       div.style.background = "white";
+       div.style.border = "none";
+   }
+   var count = ((parseInt(machineRowIndex)-1) * 60) + parseInt(machineColIndex) ;
+   var cell = ("div").concat(count.toString());
+   var div = document.getElementById(cell);
+   div.style.background = "green";
+}
 function upArrowClick(){
    eventType = "Move Up";
    eventList.push(eventType);
@@ -122,6 +145,10 @@ function requestHandlerFunction(){
           const x_pos = xhr.getResponseHeader("rowIndex");
           const y_pos = xhr.getResponseHeader("colIndex");
           const eventListStatus = xhr.getResponseHeader("eventListStatus");
+          const focusStatus = xhr.getResponseHeader("appendToList");
+          if(focusStatus == "append to list"){
+              focusedCell.push((machineRowIndex-1)*60 + machineColIndex);
+          }
           responseHandlerFunction(timeStamp, state, x_pos, y_pos, eventListStatus);
         } else {
           console.log(`Error: ${xhr.status}`);
@@ -171,24 +198,24 @@ function setMachineRequestcall(time){
     margin-right: auto;
     margin-left: auto;
     width: 900px;
-    height: 575px;
+    height: 585px;
     border-style: solid;
 }
 #upArrow{
   text-align: center;
-  margin-left: 400px;
+  margin-left: 600px;
 }
 #leftArrow{
   text-align:center;
-  margin-left:380px;
+  margin-left:580px;
 }
 #rightArrow{
   text-align:center;
-  margin-right:380px;
+  margin-right:580px;
 }
 #downArrow{
   text-align:center;
-  margin-left:400px;
+  margin-left:600px;
 }
     </style>
 </head>
@@ -204,5 +231,9 @@ function setMachineRequestcall(time){
 <input id="rightArrow" type="button" value="&#8594" onclick="getTimeStamp(event),rightArrowClick()">
 </br>
 <input id="downArrow" type="button" value="&#8595" onclick="getTimeStamp(event),downArrowClick()">
+</br>
+<input id="focusedCell" type="button" value="Focused Cell" onclick="focusedCells()">
+</br>
+<input id="clearAll" type="button" value="Clear All" onclick="clearCells()">
 </body>
 </html>
