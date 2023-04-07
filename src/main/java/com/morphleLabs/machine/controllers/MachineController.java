@@ -37,6 +37,7 @@ public class MachineController {
         responseHeaders.set("rowIndex" , String.valueOf(machine.machineRowIndex));
         responseHeaders.set("colIndex" , String.valueOf(machine.machineColIndex));
         responseHeaders.set("eventListStatus" , machine.eventListStatus);
+        responseHeaders.set("appendToList", machine.focusStatus);
         return ResponseEntity.ok()
                 .headers(responseHeaders)
                 .body("Updated machine state");
