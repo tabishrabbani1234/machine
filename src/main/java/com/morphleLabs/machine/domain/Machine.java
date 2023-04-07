@@ -8,6 +8,7 @@ public class Machine {
     public int machineColIndex;
     public long  machineTimeStamp;
     public String eventListStatus;
+    public String focusStatus = MachineConstants.dontAppendToList;
 
     public final void updateEventList(List<String> eventList){
         if(this.eventTimeStamp < this.machineTimeStamp){
@@ -43,6 +44,7 @@ public class Machine {
         if(eventList.size() == 1){
             if(this.machineTimeStamp == this.eventTimeStamp && this.machineState.equals(MachineConstants.focus)){
                 this.machineState = MachineConstants.capture;
+                this.focusStatus = MachineConstants.appendToList;
             } else if(this.machineTimeStamp == this.eventTimeStamp && this.machineState.equals(MachineConstants.capture)){
                 this.machineState = MachineConstants.idle;
             } else {
